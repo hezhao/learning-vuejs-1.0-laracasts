@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="app">
+            <div v-for="p in plans">
+                <plan :plan="p" :active.sync="active"></plan>
+            </div>
+
+            <pre>
+                {{ $data | json}}
+            </pre>
+        </div>
+
+        <template id="plan-template">
+            <div>
+                <span>{{ plan.name }}</span>
+                <span>{{ plan.price }}/month</span>
+                <button @click="setActivePlan" v-show="plan.name !== active.name">
+                    {{ isUpgrade ? 'Update' : 'Downgrade' }}
+                </button>
+
+                <span v-else>
+                    Selected
+                </span>
+            </div>
+        </template>
+
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.4/vue.js"></script>
+        <script>
+            Vue.component('plan', {
+                template: '#plan-template',
+                props: ['plan', 'active'],
+                data: function() {
+                    this.active = {name: 'Enterprise', price: 100};
+                },
+                methods: {
+                    setActivePlan: function() {
+                        this.active = this.plan;
+                    },
+                    initActivePlan: function() {
+                        this.active = this.plans[0];
+                    }
+                },
+                computed: {
+                    isUpgrade: function() {
+                        return this.plan.price > this.active.price;
+                    }
+                }
+            });
+            new Vue({
+                ready: function() {
+                    this.active = this.plans[2];
+                },
+                el: '#app',
+                data: {
+                    planfree: {name: 'Free', price: 0},
+                    plans: [
+                        {name: 'Enterprise', price: 100},
+                        {name: 'Pro', price: 50},
+                        {name: 'Personal', price: 10},
+                        {name: 'Free', price: 0}
+                    ],
+                    active: {}
+                }
+            });
+        </script>
+    </body>
+</html>
