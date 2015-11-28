@@ -8,3 +8,7 @@ Tutorial code for [Learning Vue 1.0: Step By Step](https://laracasts.com/series/
 5. Computed Properties ([6:23](https://laracasts.com/series/learning-vue-step-by-step/episodes/5))
 6. Subscription Plans Exercise ([16:28](https://laracasts.com/series/learning-vue-step-by-step/episodes/6))
 7. Rendering and Working With Lists ([7:15](https://laracasts.com/series/learning-vue-step-by-step/episodes/7))
+8. Custom Components 101 ([5:57](https://laracasts.com/series/learning-vue-step-by-step/episodes/8))
+9. Vue Makes it so Easy ([7:45](https://laracasts.com/series/learning-vue-step-by-step/episodes/9))
+10. Vue, Laravel, and AJAX ([12:45](https://laracasts.com/series/learning-vue-step-by-step/episodes/10))
+11. Vue Resource ([6:37](https://laracasts.com/series/learning-vue-step-by-step/episodes/11))
