@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">
+            .completed { text-decoration: line-through; }
+            li { cursor: pointer; }
+        </style>
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="app">
+            <tasks :list="tasks"></tasks>
+            
+            <pre>
+                {{ $data | json}}
+            </pre>
+        </div>
+
+        <template id="tasks-template">
+            <h1>
+                My Tasks
+                <span v-show="remaining">({{ remaining }})</span>
+            </h1>
+            <ul v-show="list.length">
+                <li :class="{ 'completed': task.completed }"
+                    v-for="task in list"
+                    @click="task.completed = !task.completed"
+                >
+                    {{ task.body }}
+
+                    <strong @click="deleteTask(task)">x</strong>
+                </li>
+            </ul>
+            <p v-else>No tasks yet!</p>
+            <button @click="clearCompleted">Clear Completed</button>
+
+        </template>
+
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js"></script>
+        <script>
+            Vue.component('tasks', {
+                props: ['list'],
+                template: '#tasks-template',
+                computed: {
+                    remaining: function() {
+                        return this.list.filter(this.inProgress).length;
+                    }
+                },
+                methods: {
+                    isCompleted: function (task) {
+                        return task.completed;
+                    },
+                    inProgress: function(task) {
+                        return !this.isCompleted(task);
+                    },
+                    deleteTask: function(task) {
+                        this.list.$remove(task);
+                    },
+                    clearCompleted: function() {
+                        this.list = this.list.filter(this.inProgress);
+                    }
+                }
+            })
+            new Vue({
+                el: '#app',
+                data: {
+                    tasks: [
+                        { body: 'Go to the store', completed: false },
+                        { body: 'Go to the bank', completed: false },
+                        { body: 'Got to the doctor', completed: true }
+                    ]
+                }
+            });
+        </script>
+    </body>
+</html>
